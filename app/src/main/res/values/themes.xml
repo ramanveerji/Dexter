@@ -1,0 +1,21 @@
+<resources>
+
+    <style name="Theme.DexEditor" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimary</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <item name="materialPopupMenuStyle">@style/Widget.MPM.Menu</item>
+
+    </style>
+
+</resources>

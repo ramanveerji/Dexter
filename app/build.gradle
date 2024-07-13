@@ -1,0 +1,122 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "ma.dexter"
+        minSdk 26
+        //noinspection ExpiredTargetSdkVersion
+        targetSdk 31
+        versionCode 2
+        versionName "1.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    packagingOptions {
+        jniLibs {
+            excludes += ['org/antlr/codegen/templates/**', 'org/antlr/v4/tool/templates/codegen/**', 'com/googlecode/dex2jar/tools/**']
+        }
+        resources {
+            excludes += ['org/antlr/codegen/templates/**', 'org/antlr/v4/tool/templates/codegen/**', 'com/googlecode/dex2jar/tools/**', 'smali.properties', 'baksmali.properties', 'export/build.gradle.tmpl']
+        }
+    }
+
+    namespace 'ma.dexter'
+}
+
+tasks.withType(Test).configureEach {
+    testLogging {
+        events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+
+    // AndroidX
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "androidx.fragment:fragment-ktx:1.4.0"
+
+    // For unit tests
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'com.google.truth:truth:1.1.3'
+    testImplementation 'org.eclipse.jdt.core.compiler:ecj:4.6.1'
+    testImplementation 'com.android.tools:r8:8.3.37'
+
+    implementation 'io.github.Rosemoe.sora-editor:editor:0.8.3'
+    implementation 'io.github.Rosemoe.sora-editor:language-base:0.8.3'
+    implementation 'io.github.Rosemoe.sora-editor:language-universal:0.8.3'
+    implementation 'io.github.Rosemoe.sora-editor:language-java:0.8.3'
+    implementation 'com.github.angads25:filepicker:1.1.1'
+    implementation 'me.zhanghai.android.fastscroll:library:1.1.7'
+    implementation 'com.github.zawadz88.materialpopupmenu:material-popup-menu:4.1.0'
+    implementation 'com.google.guava:guava:30.1.1-android'
+
+    // javaparser
+    implementation 'com.github.javaparser:javaparser-core:3.23.1'
+
+    // dex2jar (maintained fork)
+    /*def d2jVersion = "v50"
+    def withoutIcu = { exclude group: 'com.ibm.icu', module: 'icu4j' } // Adds ~10MB to the APK !
+    implementation "com.github.ThexXTURBOXx.dex2jar:dex-tools:$d2jVersion", withoutIcu
+    implementation "com.github.ThexXTURBOXx.dex2jar:dex-translator:$d2jVersion", withoutIcu*/
+    // TODO: replace this with the above when a new version is published
+    implementation "com.github.MikeAndrson.dex2jar:dex-tools:9c0d3ad497"
+    implementation "com.github.MikeAndrson.dex2jar:dex-translator:9c0d3ad497"
+
+    // smali & baksmali
+    implementation "org.smali:smali:2.5.2"
+    implementation "org.smali:baksmali:2.5.2"
+
+    // cfr
+    implementation 'org.benf:cfr:0.151'
+
+    // procyon
+    implementation 'com.github.MikeAndrson.procyon:procyon-compilertools:androidport_0.5.36'
+    implementation files("libs/procyon/javax-model.jar") // for javax.lang.model
+
+    // fernflower
+    // from the latest commit:
+    // https://github.com/fesh0r/fernflower/commit/e7fa2769f512cdf85063a798ba9781d4fd6e9664
+    implementation 'com.github.MikeAndrson:fernflower:3c1d05bf23'
+
+    // jd-core
+    // from the latest commit:
+    // https://github.com/java-decompiler/jd-core/commit/fafc65682647deee757b7698e1c872469be1a211
+    implementation 'com.github.java-decompiler:jd-core:fafc656826'
+
+    // jadx
+    implementation files("libs/jadx/jadx-core-v1.2.0.jar")
+    implementation files("libs/jadx/jadx-plugins-api-v1.2.0.jar")
+    implementation files("libs/jadx/jadx-dex-input-v1.2.0.jar")
+    implementation files("libs/jadx/android-29-clst.jar")
+    implementation 'org.slf4j:slf4j-api:1.7.32' // 1.7.30
+}
